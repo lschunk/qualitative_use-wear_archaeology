@@ -1,0 +1,133 @@
+---
+title: "Qualitative use-wear analysis"
+author: "Lisa Schunk"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: cerulean
+    highlight: pygments
+    number_sections: true
+  github_document: 
+    toc: true
+    toc_depth: 3
+    html_preview: false
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_format = "all", knit_root_dir = rprojroot::find_rstudio_root_file()) })
+---
+
+
+```{r Knitr Options, include=FALSE}
+knitr::opts_chunk$set(comment = NA, message = FALSE, indent = "", error = TRUE)
+```
+
+---
+
+
+# Goal of the script
+This script formats the output of the resulting CSV-file from digitalising the location of use-wear traces in QGIS.
+The script will:
+
+1. Read in the original CSV-file   
+2. Format the data   
+3. Write an XLSX-file and save an R object ready for further analysis in R 
+
+```{r}
+dir_in <- "analysis/raw_data"
+dir_out <- "analysis/derived_data/"
+```
+
+Raw data must be located in `r paste0("~/", dir_in)`.  
+Formatted data will be saved in `r paste0("~/", dir_out)`.
+
+The knit directory for this script is the project directory.
+
+---
+
+
+# Load packages
+```{r}
+library(openxlsx)
+library(tools)
+library(R.utils)
+library(chron)
+library(ggplot2)
+library(wesanderson)
+library(dplyr)
+library(doBy)
+```
+
+
+---
+
+# Get names, path and information of the file 
+```{r}
+data_file <- list.files(dir_in, pattern = "\\.csv$", full.names = TRUE)
+md5_in <- md5sum(data_file)
+info_in <- data.frame(file = basename(names(md5_in)), checksum = md5_in, row.names = NULL)
+```
+
+The checksum (MD5 hashes) of the imported file are:  
+```{r, echo = FALSE}
+info_in
+```
+
+
+---
+
+
+# Read in original CSV-file
+```{r}
+imp_data <- read.csv(data_file, header = TRUE, stringsAsFactors = FALSE, na.strings = "*****")
+str(imp_data)
+```
+
+---
+
+
+# Pie charts
+```{r}
+
+
+# define which part of the data belongs to Keilmesser 
+KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
+
+# splits the data into single areas 
+sp <- split(KM, KM[["area"]])
+
+
+custom.col <- c("#999999", "#FFDB6D", "#C4961A", "#9a0f0f", "#F4EDCA", "black",
+                "#D16103", "#C3D7A4", "#52854C", "#4E84C4", "#293352") 
+
+pct.fun <- function(x, y) length(x) / y *100
+n.rows <- summaryBy(specimen ~ area, data = KM, FUN = length)
+for (i in seq_along(n.rows)) {
+  pct[[i]] <- summaryBy(specimen ~ area + use.wear.type, data = KM, FUN = pct.fun, y = n.rows[i])
+}
+pct <- summaryBy(specimen ~ area + use.wear.type, data = KM, FUN = pct.fun, y = KM)
+
+
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp)){
+  KM_pie <- ggplot(data = sp[[i]], aes(x = area, fill = use.wear.type )) +
+            geom_bar(stat = "count", width = 0.5) + 
+            coord_polar("y", start = 0) +
+            theme_void() +
+            #facet_wrap(~area) +
+            scale_fill_manual(values = custom.col) +
+            labs(fill = gsub("\\.", " ", "use-wear type"))  
+            #geom_text(aes(y = use.wear.type), color = "white")
+          
+ 
+  print(KM_pie)
+
+}
+
+#F4EDCA
+
+
+
+```
+
