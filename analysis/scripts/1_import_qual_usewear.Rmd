@@ -97,9 +97,22 @@ KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
 # splits the data into single areas 
 sp <- split(KM, KM[["area"]])
 
+#05100c black 
+#999999 grey 
+#52854c green 
+#c3d7a4 light green 
+#487bb6 blue 
+#a6cee3 light blue 
+#9a0f0f red
+#d16103 orange
+#fdbf6f apricot
+#ffdb6d yellow
+#985633 brown 
+#134680 dark blue 
 
-custom.col <- c("#999999", "#FFDB6D", "#C4961A", "#9a0f0f", "#F4EDCA", "black",
-                "#D16103", "#C3D7A4", "#52854C", "#4E84C4", "#293352") 
+
+custom.col <- c("#999999", "#52854c", "#c3d7a4", "#487bb6", "#a6cee3",
+                "#9a0f0f", "#d16103", "#fdbf6f", "#ffdb6d", "#985633", "#134680", "#05100c") 
 
 pct.fun <- function(x, y) length(x) / y *100
 n.rows <- summaryBy(specimen ~ area, data = KM, FUN = length)
@@ -119,8 +132,7 @@ for (i in seq_along(sp)){
             scale_fill_manual(values = custom.col) +
             labs(fill = gsub("\\.", " ", "use-wear type"))  
             #geom_text(aes(y = use.wear.type), color = "white")
-          
- 
+        
   print(KM_pie)
 
 }
