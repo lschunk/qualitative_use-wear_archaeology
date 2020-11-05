@@ -36,7 +36,7 @@ The script will:
 
 ```{r}
 dir_in <- "analysis/raw_data"
-dir_out <- "analysis/derived_data/"
+dir_out <- "analysis/plots/"
 ```
 
 Raw data must be located in `r paste0("~/", dir_in)`.  
@@ -57,6 +57,7 @@ library(ggplot2)
 library(wesanderson)
 library(dplyr)
 library(doBy)
+
 ```
 
 
@@ -87,18 +88,123 @@ str(imp_data)
 ---
 
 
-# Pie charts
+# Percentages
+## Percentages of use-wear types for all tool types together 
 ```{r}
+# splits the data into single areas 
+sp_all <- split(imp_data, imp_data[["area"]])
+pct_all <- vector(mode = "list", length = length(sp_all))
 
 
+for (i in seq_along(sp_all)) {
+  pct_all[[i]] <- sp_all[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_all)[i])
+}
+
+PCT_all <- do.call(rbind, pct_all) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Keilmesser
+```{r}
 # define which part of the data belongs to Keilmesser 
 KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
 
 # splits the data into single areas 
-sp <- split(KM, KM[["area"]])
+sp_KM <- split(KM, KM[["area"]])
+pct_KM <- vector(mode = "list", length = length(sp_KM))
 
+
+for (i in seq_along(sp_KM)) {
+  pct_KM[[i]] <- sp_KM[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_KM)[i])
+}
+
+PCT_KM <- do.call(rbind, pct_KM) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Pradnick scraper 
+```{r}
+# define which part of the data belongs to Pradnick scraper 
+PS <- imp_data[imp_data[["tool.type"]] == "Pradnick scraper", ]
+
+# splits the data into single areas 
+sp_PS <- split(PS, PS[["area"]])
+pct_PS <- vector(mode = "list", length = length(sp_PS))
+
+
+for (i in seq_along(sp_PS)) {
+  pct_PS[[i]] <- sp_PS[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_PS)[i])
+}
+
+PCT_PS <- do.call(rbind, pct_PS) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Pradnick spalls
+```{r}
+# define which part of the data belongs to Pradnick spall 
+LSS <- imp_data[imp_data[["tool.type"]] == "Pradnick spall", ]
+
+# splits the data into single areas 
+sp_LSS <- split(LSS, LSS[["area"]])
+pct_LSS <- vector(mode = "list", length = length(sp_LSS))
+
+
+for (i in seq_along(sp_LSS)) {
+  pct_LSS[[i]] <- sp_LSS[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_LSS)[i])
+}
+
+PCT_LSS <- do.call(rbind, pct_LSS) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all scraper
+```{r}
+# define which part of the data belongs to Pradnick spall 
+S <- imp_data[imp_data[["tool.type"]] == "scraper", ]
+
+# splits the data into single areas 
+sp_S <- split(S, S[["area"]])
+pct_S <- vector(mode = "list", length = length(sp_S))
+
+
+for (i in seq_along(sp_S)) {
+  pct_S[[i]] <- sp_S[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_S)[i])
+}
+
+PCT_S <- do.call(rbind, pct_S) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+# Pie charts
+## Colour definitions
+```{r}
 #05100c black 
-#999999 grey 
+#999999 gray 
 #52854c green 
 #c3d7a4 light green 
 #487bb6 blue 
@@ -108,38 +214,164 @@ sp <- split(KM, KM[["area"]])
 #fdbf6f apricot
 #ffdb6d yellow
 #985633 brown 
-#134680 dark blue 
+#134680 dark blue
 
-
-custom.col <- c("#999999", "#52854c", "#c3d7a4", "#487bb6", "#a6cee3",
-                "#9a0f0f", "#d16103", "#fdbf6f", "#ffdb6d", "#985633", "#134680", "#05100c") 
-
-pct.fun <- function(x, y) length(x) / y *100
-n.rows <- summaryBy(specimen ~ area, data = KM, FUN = length)
-for (i in seq_along(n.rows)) {
-  pct[[i]] <- summaryBy(specimen ~ area + use.wear.type, data = KM, FUN = pct.fun, y = n.rows[i])
-}
-pct <- summaryBy(specimen ~ area + use.wear.type, data = KM, FUN = pct.fun, y = KM)
-
-
-# plots first as a bar plot and then converts into a pie chart  
-for (i in seq_along(sp)){
-  KM_pie <- ggplot(data = sp[[i]], aes(x = area, fill = use.wear.type )) +
-            geom_bar(stat = "count", width = 0.5) + 
-            coord_polar("y", start = 0) +
-            theme_void() +
-            #facet_wrap(~area) +
-            scale_fill_manual(values = custom.col) +
-            labs(fill = gsub("\\.", " ", "use-wear type"))  
-            #geom_text(aes(y = use.wear.type), color = "white")
-        
-  print(KM_pie)
-
-}
-
-#F4EDCA
-
-
+custom.col <- data.frame(type = unique(imp_data$use.wear.type), 
+                         col = c("#999999", "#52854c", "#c3d7a4", "#487bb6", "#a6cee3", "#9a0f0f", 
+                                 "#d16103", "#ffdb6d", "#985633", "#134680", "#05100c")) 
 
 ```
 
+
+## Plots per tool type 
+### Keilmesser 
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_KM)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_KM[[i]][["use.wear.type"]]), "col"]
+  KM_pie <- ggplot(data = sp_KM[[i]], aes(x = area, fill = use.wear.type )) +
+            geom_bar(stat = "count", width = 0.5) + 
+            coord_polar("y", start = 0) +
+            theme_void() +
+            scale_fill_manual(values = col_i) +
+            labs(fill = gsub("\\.", " ", "use-wear type"))  
+          
+  print(KM_pie)
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_KM_pie_", 
+	                   names(sp_KM)[i], ".pdf")
+	ggsave(filename = file_out, plot = KM_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Pradnick scraper
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_PS)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_PS[[i]][["use.wear.type"]]), "col"]
+  PS_pie <- ggplot(data = sp_PS[[i]], aes(x = area, fill = use.wear.type )) +
+            geom_bar(stat = "count", width = 0.5) + 
+            coord_polar("y", start = 0) +
+            theme_void() + 
+            scale_fill_manual(values = col_i) +
+            labs(fill = gsub("\\.", " ", "use-wear type"))  
+  
+  print(PS_pie)
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_PS_pie_", 
+	                   names(sp_PS)[i], ".pdf")
+	ggsave(filename = file_out, plot = PS_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Pradnick spall
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_LSS)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_LSS[[i]][["use.wear.type"]]), "col"]
+  LSS_pie <- ggplot(data = sp_LSS[[i]], aes(x = area, fill = use.wear.type )) +
+             geom_bar(stat = "count", width = 0.5) + 
+             coord_polar("y", start = 0) +
+             theme_void() + 
+             scale_fill_manual(values = col_i) +
+             labs(fill = gsub("\\.", " ", "use-wear type"))  
+  
+  print(LSS_pie)
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_LSS_pie_", 
+	                   names(sp_LSS)[i], ".pdf")
+	ggsave(filename = file_out, plot = LSS_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Scraper
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_S)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_S[[i]][["use.wear.type"]]), "col"]
+  S_pie <- ggplot(data = sp_S[[i]], aes(x = area, fill = use.wear.type )) +
+             geom_bar(stat = "count", width = 0.5) + 
+             coord_polar("y", start = 0) +
+             theme_void() + 
+             scale_fill_manual(values = col_i) +
+             labs(fill = gsub("\\.", " ", "use-wear type"))  
+  
+  print(S_pie)
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_S_pie_", 
+	                   names(sp_S)[i], ".pdf")
+	ggsave(filename = file_out, plot = S_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+---
+
+# Save data
+## Format name of output file 
+```{r}
+file_out <- "Use-wear_qualitative_stats"
+
+```
+
+The file will be saved as “~/analysis/summary_stats/.[ext]”.
+
+
+## Write to XLSX
+```{r}
+write.xlsx(list(all = PCT_all, KM = PCT_KM, PCT_PS = PS, PCT_LSS = LSS, PCT_S = S), 
+                file = paste0(dir_out, file_out, ".xlsx"))
+
+```
+
+
+
+## Show files information
+```{r}
+files_out <- c(paste0(dir_out, file_out, ".xlsx"), paste0(dir_out, file_out, ".Rbin"))
+md5_out <- md5sum(files_out)
+info_out <- data.frame(files = basename(names(md5_out)), checksum = md5_out, 
+                       row.names = NULL)
+```
+
+
+---
+
+The checksum (MD5 hashes) of the exported files are:  
+```{r, echo = FALSE}
+info_out
+```
+
+
+---
+
+# sessionInfo() and RStudio version
+
+```{r}
+sessionInfo()
+```
+
+RStudio version `r readLines("analysis/scripts/RStudioVersion.txt", n = 1)`.
+
+
+---
+
+END OF SCRIPT

@@ -147,12 +147,12 @@ Keilmesser,1,Balve,MU-241,D2,C
 Keilmesser,1,Balve,MU-249,A1,C
 Keilmesser,1,Balve,MU-286,D3,C
 Keilmesser,2,Balve,MU-288,D2,C
-Keilmesser,1,Ramioul,R-018,B1,C-D
-Keilmesser,1,Buhlen,BU-077,A3,C-E
-Keilmesser,2,Balve,MU-246,D1,C-E
-Keilmesser,1,Balve,MU-246,B1,C-E
-Keilmesser,1,Balve,MU-273,B3,C-E
-Keilmesser,1,Balve,MU-276,B3,C-E
+Keilmesser,1,Ramioul,R-018,B1,C/D
+Keilmesser,1,Buhlen,BU-077,A3,C/E
+Keilmesser,2,Balve,MU-246,D1,C/E
+Keilmesser,1,Balve,MU-246,B1,C/E
+Keilmesser,1,Balve,MU-273,B3,C/E
+Keilmesser,1,Balve,MU-276,B3,C/E
 Keilmesser,1,Ramioul,R-002,B1,D
 Keilmesser,1,Ramioul,R-008,D2,D
 Keilmesser,1,Ramioul,R-008,D3,D
@@ -178,7 +178,7 @@ Keilmesser,1,Balve,MU-041,D1,E
 Keilmesser,1,Balve,MU-041,D2,E
 Keilmesser,1,Balve,MU-111,B1,E
 Keilmesser,1,Balve,MU-111,D1,E
-Keilmesser,1,Balve,MU-112,C2,E
+Keilmesser,1,Balve,MU-112,C1,E
 Keilmesser,1,Balve,MU-112,C3,E
 Keilmesser,1,Balve,MU-199,A2,E
 Keilmesser,2,Balve,MU-226,B2,E
@@ -205,44 +205,44 @@ Pradnick spall,1,Balve,MU-095,D1,B
 Pradnick spall,2,Balve,MU-118,D2,B
 Pradnick spall,1,Balve,MU-164,C1,B
 Pradnick spall,1,Balve,MU-164,C2,B
-Pradnick spall,1,Balve,MU-104,A1,B2
-Pradnick spall,1,Balve,MU-118,C2,B2
-Pradnick spall,1,Balve,MU-119,D1,B2
-Pradnick spall,1,Balve,MU-153,A1,B2
-Pradnick spall,1,Balve,MU-161,A2,B2
-Pradnick spall,1,Balve,MU-173,A1,B2
-Pradnick spall,1,Balve,MU-173,D2,B2
-Pradnick spall,1,Balve,MU-180,A2,B2
-Pradnick spall,1,Balve,MU-180,D1,B2
-Pradnick spall,1,Balve,MU-180,B1,B2
-Pradnick spall,2,Balve,MU-180,B1,B2
-Pradnick spall,1,Balve,MU-190,D1,B2
-Pradnick spall,1,Balve,MU-194,D2,B2
-Pradnick spall,1,Balve,MU-194,A2,B2
-Pradnick spall,1,Balve,MU-194,B1,B2
-Pradnick spall,2,Balve,MU-194,B1,B2
-Pradnick spall,1,Balve,MU-204,D1,B2
-Pradnick spall,1,Balve,MU-301,D1,B2
-Pradnick spall,1,Buhlen,BU-121,B1,B2
-Pradnick spall,1,Buhlen,BU-121,B2,B2
-Pradnick spall,1,Buhlen,BU-121,A1,B2
-Pradnick spall,2,Buhlen,BU-124,B1,B2
-Pradnick spall,1,Buhlen,BU-124,C1,B2
-Pradnick spall,1,Buhlen,BU-127,B1,B2
-Pradnick spall,2,Buhlen,BU-127,B1,B2
-Pradnick spall,1,Buhlen,BU-127,D1,B2
-Pradnick spall,1,Buhlen,BU-128,D2,B2
-Pradnick spall,1,Buhlen,BU-128,C2,B2
-Pradnick spall,1,Buhlen,BU-131,D1,B2
-Pradnick spall,1,Buhlen,BU-132,C2,B2
-Pradnick spall,1,Buhlen,BU-136,B2,B2
-Pradnick spall,1,Buhlen,BU-139,A2,B2
-Pradnick spall,1,Buhlen,BU-169,B2,B2
-Pradnick spall,1,Balve,MU-104,C1,C_E
-Pradnick spall,1,Balve,MU-118,D2,C_E
-Pradnick spall,1,Balve,MU-217,B1,C_E
-Pradnick spall,1,Balve,MU-217,B2,C_E
-Pradnick spall,1,Balve,MU-180,D1,C_E
+Pradnick spall,1,Balve,MU-104,A1,C
+Pradnick spall,1,Balve,MU-118,C2,C
+Pradnick spall,1,Balve,MU-119,D1,C
+Pradnick spall,1,Balve,MU-153,A1,C
+Pradnick spall,1,Balve,MU-161,A2,C
+Pradnick spall,1,Balve,MU-173,A1,C
+Pradnick spall,1,Balve,MU-173,D2,C
+Pradnick spall,1,Balve,MU-180,A2,C
+Pradnick spall,1,Balve,MU-180,D1,C
+Pradnick spall,1,Balve,MU-180,B1,C
+Pradnick spall,2,Balve,MU-180,B1,C
+Pradnick spall,1,Balve,MU-190,D1,C
+Pradnick spall,1,Balve,MU-194,D2,C
+Pradnick spall,1,Balve,MU-194,A2,C
+Pradnick spall,1,Balve,MU-194,B1,C
+Pradnick spall,2,Balve,MU-194,B1,C
+Pradnick spall,1,Balve,MU-204,D1,C
+Pradnick spall,1,Balve,MU-301,D1,C
+Pradnick spall,1,Buhlen,BU-121,B1,C
+Pradnick spall,1,Buhlen,BU-121,B2,C
+Pradnick spall,1,Buhlen,BU-121,A1,C
+Pradnick spall,2,Buhlen,BU-124,B1,C
+Pradnick spall,1,Buhlen,BU-124,C1,C
+Pradnick spall,1,Buhlen,BU-127,B1,C
+Pradnick spall,2,Buhlen,BU-127,B1,C
+Pradnick spall,1,Buhlen,BU-127,D1,C
+Pradnick spall,1,Buhlen,BU-128,D2,C
+Pradnick spall,1,Buhlen,BU-128,C2,C
+Pradnick spall,1,Buhlen,BU-131,D1,C
+Pradnick spall,1,Buhlen,BU-132,C2,C
+Pradnick spall,1,Buhlen,BU-136,B2,C
+Pradnick spall,1,Buhlen,BU-139,A2,C
+Pradnick spall,1,Buhlen,BU-169,B2,C
+Pradnick spall,1,Balve,MU-104,C1,C/E
+Pradnick spall,1,Balve,MU-118,D2,C/E
+Pradnick spall,1,Balve,MU-217,B1,C/E
+Pradnick spall,1,Balve,MU-217,B2,C/E
+Pradnick spall,1,Balve,MU-180,D1,C/E
 Pradnick spall,2,Balve,MU-190,D1,D
 Pradnick spall,1,Balve,MU-203,C2,D
 Pradnick spall,1,Balve,MU-180,B2,F
@@ -275,43 +275,48 @@ Pradnick scraper,1,Buhlen,BU-115,D1,C
 Pradnick scraper,1,Balve,MU-005,B2,C
 Pradnick scraper,1,Balve,MU-098,D2,C
 Pradnick scraper,1,Balve,MU-098,D3,C
-Pradnick scraper,1,Ramioul,R-010,D1,C-E
+Pradnick scraper,1,Ramioul,R-010,D1,C/E
 Pradnick scraper,1,Balve,MU-098,D1,D2
 Pradnick scraper,1,Ramioul,R-016,B3,G
 Pradnick scraper,1,Ramioul,R-016,D1,G
 Pradnick scraper,1,Buhlen,BU-107,D3,G
-scraper,2,Balve,MU-030,D3,A
-scraper,1,Balve,MU-201,B1,A
-scraper,1,Balve,MU-285,D1,A
-scraper,2,Balve,MU-285,D1,A
+scraper,1,Balve,MU-285,A1,C
+scraper,1,Ramioul,R-015,A1,G
 scraper,1,Balve,MU-025,A2,B
-scraper,1,Balve,MU-278,B2,B
-scraper,1,Balve,MU-278,B3,B
+scraper,1,Balve,MU-019,A2,D2
 scraper,1,Ramioul,R-003,A3,C
-scraper,1,Ramioul,R-009,D2,C
-scraper,1,Ramioul,R-012,C1,C
+scraper,1,Balve,MU-285,A3,C
+scraper,1,Balve,MU-019,A3,B2
+scraper,1,Balve,MU-201,B1,A
+scraper,1,Balve,MU-278,B2,B
 scraper,1,Ramioul,R-017,B2,C
 scraper,2,Ramioul,R-017,B2,C
-scraper,1,Buhlen,BU-194,D1,C
-scraper,1,Ramioul,R-009,C1,C
-scraper,2,Ramioul,R-009,C1,C
 scraper,1,Balve,MU-274,B2,C
-scraper,1,Balve,MU-278,C2,C
-scraper,1,Balve,MU-278,C1,C
-scraper,1,Balve,MU-278,D2,C
 scraper,1,Balve,MU-279,B2,C
-scraper,1,Balve,MU-279,C2,C
-scraper,2,Balve,MU-279,D2,C
-scraper,1,Balve,MU-279,D2,C
-scraper,1,Balve,MU-285,A1,C
-scraper,1,Balve,MU-285,A3,C
-scraper,1,Ramioul,R-013,C3,C-E
-scraper,1,Ramioul,R-013,D3,D2
-scraper,1,Balve,MU-019,A2,D2
+scraper,1,Ramioul,R-013,B2,G
+scraper,1,Balve,MU-278,B3,B
 scraper,1,Ramioul,R-017,B3,E
-scraper,1,Balve,MU-030,D1,E
-scraper,1,Balve,MU-279,D1,E
 scraper,1,Balve,MU-279,B3,E
 scraper,2,Balve,MU-279,B3,E
-scraper,1,Balve,MU-030,D2,F
+scraper,1,Ramioul,R-012,C1,C
+scraper,1,Ramioul,R-009,C1,C
+scraper,2,Ramioul,R-009,C1,C
+scraper,1,Balve,MU-278,C1,C
+scraper,1,Balve,MU-278,C2,C
+scraper,1,Balve,MU-279,C2,C
+scraper,1,Ramioul,R-013,C3,C/E
 scraper,1,Balve,MU-030,C3,F
+scraper,1,Balve,MU-285,D1,A
+scraper,2,Balve,MU-285,D1,A
+scraper,1,Buhlen,BU-194,D1,C
+scraper,1,Balve,MU-030,D1,E
+scraper,1,Balve,MU-279,D1,E
+scraper,1,Ramioul,R-013,D1,G
+scraper,2,Ramioul,R-013,D1,G
+scraper,1,Ramioul,R-009,D2,C
+scraper,1,Balve,MU-278,D2,C
+scraper,2,Balve,MU-279,D2,C
+scraper,1,Balve,MU-279,D2,C
+scraper,1,Balve,MU-030,D2,F
+scraper,2,Balve,MU-030,D2,A
+scraper,1,Ramioul,R-013,D3,D2
