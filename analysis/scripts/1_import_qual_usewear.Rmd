@@ -2,25 +2,13 @@
 title: "Qualitative use-wear analysis"
 author: "Lisa Schunk"
 date: "`r Sys.time()`"
-output:
-  html_document:
-    toc: true
-    toc_depth: 3
-    toc_float: true
-    theme: cerulean
-    highlight: pygments
-    number_sections: true
-  github_document: 
-    toc: true
-    toc_depth: 3
-    html_preview: false
-knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding, output_format = "all", knit_root_dir = rprojroot::find_rstudio_root_file()) })
+output: word_document
 ---
 
 
 ```{r Knitr Options, include=FALSE}
 knitr::opts_chunk$set(comment = NA, message = FALSE, indent = "", error = TRUE)
+
 ```
 
 ---
@@ -31,12 +19,14 @@ This script formats the output of the resulting CSV-file from digitalising the l
 The script will:
 
 1. Read in the original CSV-file   
-2. Format the data   
-3. Write an XLSX-file and save an R object ready for further analysis in R 
+2. Format the data  
+3. Calculate the percentages 
+4. Plot the data as pie charts 
 
 ```{r}
 dir_in <- "analysis/raw_data"
 dir_out <- "analysis/plots/"
+
 ```
 
 Raw data must be located in `r paste0("~/", dir_in)`.  
@@ -68,11 +58,13 @@ library(doBy)
 data_file <- list.files(dir_in, pattern = "\\.csv$", full.names = TRUE)
 md5_in <- md5sum(data_file)
 info_in <- data.frame(file = basename(names(md5_in)), checksum = md5_in, row.names = NULL)
+
 ```
 
 The checksum (MD5 hashes) of the imported file are:  
 ```{r, echo = FALSE}
 info_in
+
 ```
 
 
@@ -83,6 +75,7 @@ info_in
 ```{r}
 imp_data <- read.csv(data_file, header = TRUE, stringsAsFactors = FALSE, na.strings = "*****")
 str(imp_data)
+
 ```
 
 ---
@@ -111,7 +104,7 @@ PCT_all <- do.call(rbind, pct_all) %>%
 
 ## Percentages of use-wear types for all Keilmesser
 ```{r}
-# define which part of the data belongs to Keilmesser 
+# defines which part of the data belongs to Keilmesser 
 KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
 
 # splits the data into single areas 
@@ -132,9 +125,87 @@ PCT_KM <- do.call(rbind, pct_KM) %>%
 ```
 
 
-## Percentages of use-wear types for all Pradnick scraper 
+## Percentages of use-wear types for all Keilmesser from Buhlen
 ```{r}
-# define which part of the data belongs to Pradnick scraper 
+# defines which part of the data belongs to Keilmesser 
+KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
+# selects only the data from Buhlen
+KM_Buhlen <- KM [ , ] %>% arrange(site) 
+KM_Buhlen <- KM_Buhlen[105:177, ]
+
+# splits the data into single areas 
+sp_KM_Buhlen <- split(KM_Buhlen, KM_Buhlen[["area"]])
+pct_KM_Buhlen <- vector(mode = "list", length = length(sp_KM_Buhlen))
+
+
+for (i in seq_along(sp_KM_Buhlen)) {
+  pct_KM_Buhlen[[i]] <- sp_KM_Buhlen[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_KM_Buhlen)[i])
+}
+
+PCT_KM_Buhlen <- do.call(rbind, pct_KM_Buhlen) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Keilmesser from Balve
+```{r}
+# defines which part of the data belongs to Keilmesser 
+KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
+# selects only the data from Balve
+KM_Balve <- KM [ , ] %>% arrange(site) 
+KM_Balve <- KM_Balve[1:104, ]
+
+# splits the data into single areas 
+sp_KM_Balve <- split(KM_Balve, KM_Balve[["area"]])
+pct_KM_Balve <- vector(mode = "list", length = length(sp_KM_Balve))
+
+
+for (i in seq_along(sp_KM_Balve)) {
+  pct_KM_Balve[[i]] <- sp_KM_Balve[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_KM_Balve)[i])
+}
+
+PCT_KM_Balve <- do.call(rbind, pct_KM_Balve) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Keilmesser from Ramioul
+```{r}
+# defines which part of the data belongs to Keilmesser 
+KM <- imp_data[imp_data[["tool.type"]] == "Keilmesser", ]
+# selects only the data from Ramioul
+KM_Ramioul <- KM [ , ] %>% arrange(site) 
+KM_Ramioul <- KM_Ramioul[178:195, ]
+
+# splits the data into single areas 
+sp_KM_Ramioul <- split(KM_Ramioul, KM_Ramioul[["area"]])
+pct_KM_Ramioul <- vector(mode = "list", length = length(sp_KM_Ramioul))
+
+
+for (i in seq_along(sp_KM_Ramioul)) {
+  pct_KM_Ramioul[[i]] <- sp_KM_Ramioul[[i]] %>% 
+              group_by(use.wear.type) %>%
+              summarize(perc = round(n() / nrow(.) * 100, digits = 2)) %>% 
+              mutate(area = names(sp_KM_Ramioul)[i])
+}
+
+PCT_KM_Ramioul <- do.call(rbind, pct_KM_Ramioul) %>% 
+           select(area, use.wear.type, perc)
+
+```
+
+
+## Percentages of use-wear types for all Pradnik scraper 
+```{r}
+# defines which part of the data belongs to Pradnick scraper 
 PS <- imp_data[imp_data[["tool.type"]] == "Pradnick scraper", ]
 
 # splits the data into single areas 
@@ -155,9 +226,9 @@ PCT_PS <- do.call(rbind, pct_PS) %>%
 ```
 
 
-## Percentages of use-wear types for all Pradnick spalls
+## Percentages of use-wear types for all Pradnik spalls
 ```{r}
-# define which part of the data belongs to Pradnick spall 
+# defines which part of the data belongs to Pradnick spall 
 LSS <- imp_data[imp_data[["tool.type"]] == "Pradnick spall", ]
 
 # splits the data into single areas 
@@ -180,7 +251,7 @@ PCT_LSS <- do.call(rbind, pct_LSS) %>%
 
 ## Percentages of use-wear types for all scraper
 ```{r}
-# define which part of the data belongs to Pradnick spall 
+# defines which part of the data belongs to Pradnick spall 
 S <- imp_data[imp_data[["tool.type"]] == "scraper", ]
 
 # splits the data into single areas 
@@ -217,7 +288,8 @@ PCT_S <- do.call(rbind, pct_S) %>%
 #134680 dark blue
 
 custom.col <- data.frame(type = unique(imp_data$use.wear.type), 
-                         col = c("#999999", "#52854c", "#c3d7a4", "#487bb6", "#a6cee3", "#9a0f0f", 
+                         col = c("#999999", "#52854c", "#c3d7a4", "#487bb6", "#a6cee3",
+                                 "#9a0f0f", 
                                  "#d16103", "#ffdb6d", "#985633", "#134680", "#05100c")) 
 
 ```
@@ -237,12 +309,84 @@ for (i in seq_along(sp_KM)){
             scale_fill_manual(values = col_i) +
             labs(fill = gsub("\\.", " ", "use-wear type"))  
           
-  print(KM_pie)
 
  # saves the plots 
   file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_KM_pie_", 
 	                   names(sp_KM)[i], ".pdf")
 	ggsave(filename = file_out, plot = KM_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Keilmesser from Buhlen
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_KM_Buhlen)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_KM_Buhlen[[i]][["use.wear.type"]]), "col"]
+  KM_Buhlen_pie <- ggplot(data = sp_KM_Buhlen[[i]], aes(x = area, fill = use.wear.type )) +
+                   geom_bar(stat = "count", width = 0.5) + 
+                   coord_polar("y", start = 0) +
+                   theme_void() +
+                   scale_fill_manual(values = col_i) +
+                   labs(fill = gsub("\\.", " ", "use-wear type"))  
+          
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_KM_Buhlen_pie_", 
+	                   names(sp_KM_Buhlen)[i], ".pdf")
+	ggsave(filename = file_out, plot = KM_Buhlen_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Keilmesser from Balve
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_KM_Balve)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_KM_Balve[[i]][["use.wear.type"]]), "col"]
+  KM_Balve_pie <- ggplot(data = sp_KM_Balve[[i]], aes(x = area, fill = use.wear.type )) +
+                   geom_bar(stat = "count", width = 0.5) + 
+                   coord_polar("y", start = 0) +
+                   theme_void() +
+                   scale_fill_manual(values = col_i) +
+                   labs(fill = gsub("\\.", " ", "use-wear type"))  
+          
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_KM_Balve_pie_", 
+	                   names(sp_KM_Balve)[i], ".pdf")
+	ggsave(filename = file_out, plot = KM_Balve_pie, path = dir_out, device = "pdf")
+        
+}
+
+```
+
+
+### Keilmesser from Ramioul
+```{r}
+# plots first as a bar plot and then converts into a pie chart  
+for (i in seq_along(sp_KM_Ramioul)){
+  
+  col_i <- custom.col[custom.col$type %in% unique(sp_KM_Ramioul[[i]][["use.wear.type"]]), "col"]
+  KM_Ramioul_pie <- ggplot(data = sp_KM_Ramioul[[i]], aes(x = area, 
+                                                       fill = use.wear.type )) +
+                   geom_bar(stat = "count", width = 0.5) + 
+                   coord_polar("y", start = 0) +
+                   theme_void() +
+                   scale_fill_manual(values = col_i) +
+                   labs(fill = gsub("\\.", " ", "use-wear type"))  
+          
+
+ # saves the plots 
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_KM_Ramioul_pie_", 
+	                   names(sp_KM_Ramioul)[i], ".pdf")
+	ggsave(filename = file_out, plot = KM_Ramioul_pie, path = dir_out, device = "pdf")
         
 }
 
@@ -261,8 +405,7 @@ for (i in seq_along(sp_PS)){
             theme_void() + 
             scale_fill_manual(values = col_i) +
             labs(fill = gsub("\\.", " ", "use-wear type"))  
-  
-  print(PS_pie)
+
 
  # saves the plots 
   file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_PS_pie_", 
@@ -287,7 +430,6 @@ for (i in seq_along(sp_LSS)){
              scale_fill_manual(values = col_i) +
              labs(fill = gsub("\\.", " ", "use-wear type"))  
   
-  print(LSS_pie)
 
  # saves the plots 
   file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_LSS_pie_", 
@@ -312,7 +454,6 @@ for (i in seq_along(sp_S)){
              scale_fill_manual(values = col_i) +
              labs(fill = gsub("\\.", " ", "use-wear type"))  
   
-  print(S_pie)
 
  # saves the plots 
   file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_S_pie_", 
@@ -343,30 +484,13 @@ write.xlsx(list(all = PCT_all, KM = PCT_KM, PCT_PS = PS, PCT_LSS = LSS, PCT_S = 
 ```
 
 
-
-## Show files information
-```{r}
-files_out <- c(paste0(dir_out, file_out, ".xlsx"), paste0(dir_out, file_out, ".Rbin"))
-md5_out <- md5sum(files_out)
-info_out <- data.frame(files = basename(names(md5_out)), checksum = md5_out, 
-                       row.names = NULL)
-```
-
-
----
-
-The checksum (MD5 hashes) of the exported files are:  
-```{r, echo = FALSE}
-info_out
-```
-
-
 ---
 
 # sessionInfo() and RStudio version
 
 ```{r}
 sessionInfo()
+
 ```
 
 RStudio version `r readLines("analysis/scripts/RStudioVersion.txt", n = 1)`.
